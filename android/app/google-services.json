@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "327892676518",
+    "project_id": "artbyhager",
+    "storage_bucket": "artbyhager.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:327892676518:android:942ee21194cf6a7ce4a967",
+        "android_client_info": {
+          "package_name": "com.example.art_by_hager_ismail"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBmKscXJMF-C5lGTquBn5cOYgwFJ3tjjjQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
