@@ -1,1 +1,39 @@
-{"flutter":{"platforms":{"android":{"default":{"projectId":"artbyhager","appId":"1:327892676518:android:942ee21194cf6a7ce4a967","fileOutput":"android/app/google-services.json"}},"dart":{"lib/firebase_options.dart":{"projectId":"artbyhager","configurations":{"android":"1:327892676518:android:942ee21194cf6a7ce4a967","ios":"1:327892676518:ios:3c49434183c98f2ae4a967","macos":"1:327892676518:ios:3c49434183c98f2ae4a967","web":"1:327892676518:web:48bb2fe5529b2f7fe4a967","windows":"1:327892676518:web:48bb2fe5529b2f7fe4a967"}}}}}}
+{
+  "flutter": {
+    "platforms": {
+      "android": {
+        "default": {
+          "projectId": "artbyhager",
+          "appId": "1:327892676518:android:942ee21194cf6a7ce4a967",
+          "fileOutput": "android/app/google-services.json"
+        }
+      },
+      "dart": {
+        "lib/firebase_options.dart": {
+          "projectId": "artbyhager",
+          "configurations": {
+            "android": "1:327892676518:android:942ee21194cf6a7ce4a967",
+            "ios": "1:327892676518:ios:3c49434183c98f2ae4a967",
+            "macos": "1:327892676518:ios:3c49434183c98f2ae4a967",
+            "web": "1:327892676518:web:48bb2fe5529b2f7fe4a967",
+            "windows": "1:327892676518:web:48bb2fe5529b2f7fe4a967"
+          }
+        }
+      }
+    }
+  },
+  "hosting": {
+    "public": "build/web",
+    "ignore": [
+      "firebase.json",
+      "**/.*",
+      "**/node_modules/**"
+    ],
+    "rewrites": [
+      {
+        "source": "**",
+        "destination": "/index.html"
+      }
+    ]
+  }
+}
