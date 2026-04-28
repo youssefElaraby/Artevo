@@ -11,8 +11,10 @@ class AuthService {
   final FirebaseAuth _auth = FirebaseAuth.instance;
   final FirebaseStorage _storage = FirebaseStorage.instance;
   final FirebaseFirestore _firestore = FirebaseFirestore.instance; // ✅ ضفت دي
-  final GoogleSignIn _googleSignIn = GoogleSignIn();
-
+  final GoogleSignIn _googleSignIn = GoogleSignIn(
+    clientId:
+        '327892676518-q2bdan9llt1k8h64pvqhjjli6e0vnggt.apps.googleusercontent.com',
+  );
   // 🚀 ميثود جديدة لتحديث التوكن (منفصلة تماماً)
   Future<void> updateFCMToken() async {
     try {
@@ -46,36 +48,30 @@ class AuthService {
       final GoogleSignInAccount? googleUser = await _googleSignIn.signIn();
 
       if (googleUser == null) {
-        print("⚠️ التحذير: المستخدم قفل قائمة الحسابات (User Cancelled)");
+        print("⚠️ التحذير: المستخدم قفل قائمة الحسابات");
         throw "المستخدم ألغى العملية";
       }
 
       print("✅ تم اختيار الحساب: ${googleUser.email}");
 
+      // ✅ التعديل الثاني: التأكد من الـ Auth data
       final GoogleSignInAuthentication googleAuth =
           await googleUser.authentication;
-
-      print("🔑 Access Token: ${googleAuth.accessToken?.substring(0, 10)}...");
-      print("🔑 ID Token: ${googleAuth.idToken?.substring(0, 10)}...");
 
       final AuthCredential credential = GoogleAuthProvider.credential(
         accessToken: googleAuth.accessToken,
         idToken: googleAuth.idToken,
       );
-      print("🎫 تم إنشاء Credential بنجاح");
 
       print("🚀 محاولة الدخول لـ Firebase...");
       final UserCredential userCredential = await _auth.signInWithCredential(
         credential,
       );
+
+      // بقية الكود بتاعك (UserModel والـ FCM) سليم 100% سيبه زي ما هو
       final User? user = userCredential.user;
-
       if (user != null) {
-        print("🎯 نجاح نهائي! UID: ${user.uid}");
-
-        // 🚀 تحديث التوكن فور النجاح
         await updateFCMToken();
-
         return UserModel(
           id: user.uid,
           email: user.email ?? "",
@@ -84,15 +80,10 @@ class AuthService {
           profileImageUrl: user.photoURL,
         );
       } else {
-        throw "فشل الحصول على بيانات المستخدم من فايربيز";
+        throw "فشل الحصول على بيانات المستخدم";
       }
-    } on FirebaseAuthException catch (e) {
-      print("🔥 [Firebase Error]: Code: ${e.code}");
-      print("🔥 [Firebase Error]: Message: ${e.message}");
-      throw "Firebase [${e.code}]: ${e.message}";
-    } catch (e, stack) {
+    } catch (e) {
       print("🚨 [General Error]: $e");
-      print("🚨 [Stack Trace]: $stack");
       throw "Error Raw: ${e.toString()}";
     }
   }
@@ -218,9 +209,8 @@ class AuthService {
     await _auth.signOut();
   }
 
+  // ===================== UPDATE PROFILE IMAGE =====================
 
-// ===================== UPDATE PROFILE IMAGE =====================
-  
   /// 🆔 ميثود بسيطة لجلب الـ UID الخاص باليوزر الحالي
   String getCurrentUserId() => _auth.currentUser?.uid ?? "";
 
@@ -236,7 +226,7 @@ class AuthService {
         await _firestore.collection('users').doc(user.uid).update({
           'profilePicture': imageUrl,
         });
-        
+
         print("✅ [AuthService] Profile image updated successfully!");
       }
     } catch (e) {
